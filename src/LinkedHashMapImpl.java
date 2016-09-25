@@ -2,29 +2,36 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Created by Oleg on 9/26/2016.
- */
-public class LinkedHashMapImpl<T> implements Externalizable {
+public class LinkedHashMapImpl<K, V> extends HashMap<K, V> implements Map<K, V>, Externalizable {
 
-    private T key;
-    private T value;
+    private K key;
+    private V value;
 
-
-    public <T> T get(T key) {
-        return null;
+    @Override
+    public V get(Object key) {
+        return super.get(key);
     }
 
-    public <T> void put(T key, T value) {
+    @Override
+    public V put(K key, V value) {
+        return super.put(key, value);
+    }
 
+    @Override
+    public boolean remove(Object key, Object value) {
+        return super.remove(key, value);
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        return super.containsValue(value);
     }
 
     public boolean removeEldestEntry() {
-        return false;
-    }
-
-    public <T> boolean containsKey(T key) {
+        //TODO implemet method
         return false;
     }
 
@@ -37,7 +44,7 @@ public class LinkedHashMapImpl<T> implements Externalizable {
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        key = (T) in.readObject();
-        value = (T) in.readObject();
+        key = (K) in.readObject();
+        value = (V) in.readObject();
     }
 }
