@@ -7,9 +7,6 @@ import java.util.Map;
 
 public class LinkedHashMapImpl<K, V> extends HashMap<K, V> implements Map<K, V>, Externalizable {
 
-    private K key;
-    private V value;
-
     @Override
     public V get(Object key) {
         return super.get(key);
