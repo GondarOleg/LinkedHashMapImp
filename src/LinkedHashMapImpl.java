@@ -3,35 +3,49 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
-public class LinkedHashMapImpl<K, V> extends HashMap<K, V> implements Map<K, V>, Externalizable {
+public class LinkedHashMapImpl<K, V> implements Externalizable {
 
 
+    private HashMap<K, V> hashMap;
 
-    @Override
+    private List<K> keys;
+
+    private int size;
+
+
+    public LinkedHashMapImpl(int size) {
+        this.size = size;
+        hashMap = new HashMap<>(size + 1, 1.1f);
+        keys = new LinkedList<>();
+    }
+
+
     public V get(Object key) {
-        return super.get(key);
+        return hashMap.get(key);
     }
 
-    @Override
+
     public V put(K key, V value) {
-        return super.put(key, value);
+        if(hashMap.containsKey(key)){
+            keys.remove(key);
+            keys.add(key);
+        }
+            keys.add(key);
+            hashMap.put(key, value);
+
+        return value;
     }
 
-    @Override
-    public boolean remove(Object key, Object value) {
-        return super.remove(key, value);
-    }
 
-    @Override
     public boolean containsValue(Object value) {
-        return super.containsValue(value);
+        return hashMap.containsValue(value);
     }
 
     public boolean removeEldestEntry() {
-        //TODO implement method
-        return false;
+        return keys.size() > size;
     }
 
 
