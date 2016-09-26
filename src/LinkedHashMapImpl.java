@@ -33,6 +33,12 @@ public class LinkedHashMapImpl<K, V> implements Externalizable {
             keys.remove(key);
             keys.add(key);
         }
+        if(removeEldestEntry()){
+            hashMap.remove(keys.get(keys.size()-1));
+            keys.remove(keys.size()-1);
+            keys.add(key);
+            hashMap.put(key, value);
+        }
             keys.add(key);
             hashMap.put(key, value);
 
@@ -51,10 +57,15 @@ public class LinkedHashMapImpl<K, V> implements Externalizable {
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-
+        out.writeObject(hashMap);
+        out.writeObject(keys);
+        out.write(size);
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        hashMap = (HashMap<K, V>) in.readObject();
+        keys = (List<K>) in.readObject();
+        size = in.read();
     }
 }
