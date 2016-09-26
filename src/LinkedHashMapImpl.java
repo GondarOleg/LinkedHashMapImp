@@ -5,8 +5,9 @@ import java.io.ObjectOutput;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
-public class LinkedHashMapImpl<K, V> implements Externalizable {
+public class LinkedHashMapImpl<K, V> implements Iterable, Externalizable {
 
 
     private HashMap<K, V> hashMap;
@@ -29,18 +30,18 @@ public class LinkedHashMapImpl<K, V> implements Externalizable {
 
 
     public V put(K key, V value) {
-        if(hashMap.containsKey(key)){
+        if (hashMap.containsKey(key)) {
             keys.remove(key);
             keys.add(key);
         }
-        if(removeEldestEntry()){
-            hashMap.remove(keys.get(keys.size()-1));
-            keys.remove(keys.size()-1);
+        if (removeEldestEntry()) {
+            hashMap.remove(keys.get(keys.size() - 1));
+            keys.remove(keys.size() - 1);
             keys.add(key);
             hashMap.put(key, value);
         }
-            keys.add(key);
-            hashMap.put(key, value);
+        keys.add(key);
+        hashMap.put(key, value);
 
         return value;
     }
@@ -70,5 +71,49 @@ public class LinkedHashMapImpl<K, V> implements Externalizable {
     }
 
 
+    @Override
+    public Iterator iterator() {
+        return new Iterator<>();
+    }
+
+    private final class Iterator<T> implements java.util.Iterator<Entry<K, V>> {
+
+        int cursor = keys.size() - 1;
+
+        @Override
+        public Entry<K, V> next() {
+            if (hasNext()) {
+                K currentKey = keys.get(cursor);
+                cursor--;
+                V currentValue = hashMap.get(currentKey);
+                return new Entry<>(currentKey, currentValue);
+            }
+            throw new NoSuchElementException();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !(cursor < 0);
+        }
+
+    }
+
+    private final class Entry<K, V> {
+        K key;
+        V value;
+
+        Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public V getValue() {
+            return value;
+        }
+    }
 
 }
