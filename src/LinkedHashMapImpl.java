@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class LinkedHashMapImpl<K, V> extends HashMap<K, V> implements Map<K, V>, Externalizable {
 
+
+
     @Override
     public V get(Object key) {
         return super.get(key);
@@ -28,20 +30,17 @@ public class LinkedHashMapImpl<K, V> extends HashMap<K, V> implements Map<K, V>,
     }
 
     public boolean removeEldestEntry() {
-        //TODO implemet method
+        //TODO implement method
         return false;
     }
 
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-        out.writeObject(key);
-        out.writeObject(value);
+
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        key = (K) in.readObject();
-        value = (V) in.readObject();
     }
 }
