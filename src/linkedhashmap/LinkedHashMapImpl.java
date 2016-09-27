@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import entity.Entry;
 
 
 public class LinkedHashMapImpl<K, V> implements Iterable, Externalizable {
@@ -25,7 +24,7 @@ public class LinkedHashMapImpl<K, V> implements Iterable, Externalizable {
 
     public LinkedHashMapImpl(int size) {
         this.size = size;
-        hashMap = new HashMap<>(size + 1, 1.1f);
+        hashMap = new HashMap<>(size + 1, 1f);
         keys = new LinkedList<>();
     }
 
