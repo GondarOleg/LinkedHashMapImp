@@ -1,3 +1,7 @@
+package linkedhashmap;
+
+import entity.Entry;
+
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -6,6 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import entity.Entry;
+
 
 public class LinkedHashMapImpl<K, V> implements Iterable, Externalizable {
 
